@@ -3,7 +3,7 @@ JAVAC=javac
 JAVA=java
 JAR=jar
 CXX=c++
-INCLUDE=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/include/
+INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-8.b13.39.39.amzn1.x86_64/include/
 
 PACKAGE=org/chasen/mecab
 HOME=/home/hadoop
