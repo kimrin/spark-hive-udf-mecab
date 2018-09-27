@@ -3,7 +3,7 @@ JAVAC=javac
 JAVA=java
 JAR=jar
 CXX=c++
-INCLUDE=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+INCLUDE=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/include/
 
 PACKAGE=org/chasen/mecab
 

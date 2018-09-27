@@ -77,7 +77,7 @@ if [ ! `which mecab` ]; then
 
         ./configure --prefix=${MECAB_INSTALL_DIR} --with-charset=utf8
         make
-        make install
+        sudo make install
     fi
 
     PATH=${MECAB_INSTALL_DIR}/bin:${PATH}
