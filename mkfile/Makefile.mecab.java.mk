@@ -16,8 +16,8 @@ INC=`$(MKBCONFIG) --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux
 all:
 	$(CXX) -O3 -c -fpic $(TARGET)_wrap.cxx  $(INC)
 	$(CXX) -shared  $(TARGET)_wrap.o -o lib$(TARGET).so $(LIBS)
-	$(JAVAC) $(PACKAGE)/*.java
-	$(JAVAC) test.java
+	$(JAVAC) -encoding UTF-8 $(PACKAGE)/*.java
+	$(JAVAC) -encoding UTF-8 test.java
 	$(JAR) cfv $(TARGET).jar $(PACKAGE)/*.class
 
 test:
