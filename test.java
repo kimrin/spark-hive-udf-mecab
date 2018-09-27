@@ -7,7 +7,7 @@ import org.chasen.mecab.Node;
 public class test {
   static {
     try {
-       System.loadLibrary("MeCab");
+       System.load("libMeCab.so");
     } catch (UnsatisfiedLinkError e) {
        System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
        System.exit(1);
