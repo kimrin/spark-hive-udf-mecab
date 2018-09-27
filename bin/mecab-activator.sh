@@ -125,7 +125,7 @@ DIR=`pwd`
 NEOLOGD_BUILD_DIR=`find ${DIR}/build/mecab-ipadic-* -maxdepth 1 -type d`
 NEOLOGD_DIRNAME=`basename ${NEOLOGD_BUILD_DIR}`
 NEOLOGD_VERSION_DATE=`echo ${NEOLOGD_DIRNAME} | perl -wp -e 's!.+-(\d+)!$1!'`
-
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 wget http://pkgs.fedoraproject.org/repo/pkgs/mecab-java/mecab-java-0.996.tar.gz/e50066ae2458a47b5fdc7e119ccd9fdd/mecab-java-0.996.tar.gz
 tar vzxf mecab-java-0.996.tar.gz
 cd mecab-java-0.996
