@@ -21,7 +21,7 @@ all:
 	$(JAR) cfv $(TARGET).jar $(PACKAGE)/*.class
 
 test:
-	env LD_LIBRARY_PATH=. $(JAVA) test
+	env LD_LIBRARY_PATH=. $(JAVA) -cp MeCab.jar:. test
 
 clean:
 	rm -fr *.jar *.o *.so *.class $(PACKAGE)/*.class
