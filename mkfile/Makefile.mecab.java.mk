@@ -6,9 +6,11 @@ CXX=c++
 INCLUDE=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/include/
 
 PACKAGE=org/chasen/mecab
+DIR=`pwd`
 
-LIBS=-arch x86_64 `mecab-config --libs`
-INC=-arch x86_64 `mecab-config --cflags` -I$(INCLUDE) 
+MKBCONFIG=$(DIR)/../../mecab/bin/mecab-config 
+LIBS=`$(MKBCONFIG) --libs`
+INC=`$(MKBCONFIG) --cflags` -I$(INCLUDE) 
 
 all:
 	$(CXX) -O3 -c -fpic $(TARGET)_wrap.cxx  $(INC)
