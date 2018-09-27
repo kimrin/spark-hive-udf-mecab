@@ -11,7 +11,7 @@ DIR=$(HOME)/spark-hive-udf-mecab
 
 MKBCONFIG=$(DIR)/mecab/bin/mecab-config 
 LIBS=`$(MKBCONFIG) --libs`
-INC=`$(MKBCONFIG) --cflags` -I$(INCLUDE) 
+INC=`$(MKBCONFIG) --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux 
 
 all:
 	$(CXX) -O3 -c -fpic $(TARGET)_wrap.cxx  $(INC)
