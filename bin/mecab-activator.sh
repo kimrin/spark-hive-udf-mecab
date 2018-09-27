@@ -129,8 +129,8 @@ NEOLOGD_VERSION_DATE=`echo ${NEOLOGD_DIRNAME} | perl -wp -e 's!.+-(\d+)!$1!'`
 wget http://pkgs.fedoraproject.org/repo/pkgs/mecab-java/mecab-java-0.996.tar.gz/e50066ae2458a47b5fdc7e119ccd9fdd/mecab-java-0.996.tar.gz
 tar vzxf mecab-java-0.996.tar.gz
 cd mecab-java-0.996
-
-
+cp ${NEOLOGD_BUILD_WORK_DIR}/mkfile/Makefile.mecab.java.mk Makefile
+sudo make
 
 
 logging main INFO 'END.'

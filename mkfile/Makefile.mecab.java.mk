@@ -3,12 +3,12 @@ JAVAC=javac
 JAVA=java
 JAR=jar
 CXX=c++
-INCLUDE=/usr/lib/jvm/java-6-openjdk/include
+INCLUDE=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
 
 PACKAGE=org/chasen/mecab
 
-LIBS=`mecab-config --libs`
-INC=`mecab-config --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux
+LIBS=-arch x86_64 `mecab-config --libs`
+INC=-arch x86_64 `mecab-config --cflags` -I$(INCLUDE) 
 
 all:
 	$(CXX) -O3 -c -fpic $(TARGET)_wrap.cxx  $(INC)
