@@ -82,11 +82,11 @@ if [ ! `which mecab` ]; then
 
     PATH=${MECAB_INSTALL_DIR}/bin:${PATH}
 fi
+cd ${NEOLOGD_BUILD_WORK_DIR}/build
 
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM' -O mecab-ipadic-2.7.0-20070801.tar.gz
 tar zxfv mecab-ipadic-2.7.0-20070801.tar.gz
-mv mecab-ipadic-2.7.0-20070801 mecab-ipadic
-cd mecab-ipadic
+cd mecab-ipadic-2.7.0-20070801
 ./configure  --with-charset=utf8
 make
 sudo make install
@@ -125,6 +125,11 @@ DIR=`pwd`
 NEOLOGD_BUILD_DIR=`find ${DIR}/build/mecab-ipadic-* -maxdepth 1 -type d`
 NEOLOGD_DIRNAME=`basename ${NEOLOGD_BUILD_DIR}`
 NEOLOGD_VERSION_DATE=`echo ${NEOLOGD_DIRNAME} | perl -wp -e 's!.+-(\d+)!$1!'`
+
+wget http://pkgs.fedoraproject.org/repo/pkgs/mecab-java/mecab-java-0.996.tar.gz/e50066ae2458a47b5fdc7e119ccd9fdd/mecab-java-0.996.tar.gz
+tar vzxf mecab-java-0.996.tar.gz
+cd mecab-java-0.996
+
 
 
 
