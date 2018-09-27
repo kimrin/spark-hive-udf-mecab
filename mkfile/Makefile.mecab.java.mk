@@ -6,9 +6,10 @@ CXX=c++
 INCLUDE=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/include/
 
 PACKAGE=org/chasen/mecab
-DIR=`pwd`
+HOME=/home/hadoop
+DIR=$(HOME)/spark-hive-udf-mecab
 
-MKBCONFIG=$(DIR)/../../mecab/bin/mecab-config 
+MKBCONFIG=$(DIR)/mecab/bin/mecab-config 
 LIBS=`$(MKBCONFIG) --libs`
 INC=`$(MKBCONFIG) --cflags` -I$(INCLUDE) 
 
