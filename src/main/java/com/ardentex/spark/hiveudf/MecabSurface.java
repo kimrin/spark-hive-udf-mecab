@@ -2,6 +2,7 @@ package com.ardentex.spark.hiveudf;
 
 import java.util.ArrayList;
 
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentTypeException;
@@ -47,13 +48,13 @@ public class MecabSurface extends GenericUDF {
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
     ret.clear();
-    Object oin = argments[0].get();
+    Object oin = arguments[0].get();
     if (oin instanceof String) {
         ret = this.mecab_surface((String)oin);
     } else if (oin instanceof Text) {
-        ret = this.mecab_surface((String)oin.toString());
+        ret = (ArrayList<Object>)(this.mecab_surface((String)oin.toString()));
         ArrayList<Text> words = new ArrayList<Text>();
-        for ( i = 0 ; i < ret.length; i++ ) {
+        for (int i = 0 ; i < ret.length; i++ ) {
             words.add(new Text(ret[i]));
         }
         ret = words;
