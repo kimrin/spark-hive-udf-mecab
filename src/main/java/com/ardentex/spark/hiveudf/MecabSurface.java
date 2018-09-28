@@ -56,7 +56,7 @@ public class MecabSurface extends GenericUDF {
 
     inputOI  = (PrimitiveObjectInspector)args[0];
     /* We only support STRING type */
-    assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING;
+    assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
     outputOI = PrimitiveObjectInspectorFactory.WritableStringObjectInspector;
