@@ -52,7 +52,7 @@ public class MecabSurface extends GenericUDF {
     if (oin instanceof String) {
         ret = this.mecab_surface((String)oin.getValue().toString());
     } else if (oin instanceof Text) {
-        ret = (ArrayList<Object>)(this.mecab_surface(oin.getValue().toString());
+        ret = (ArrayList<Object>)(this.mecab_surface(oin.getValue().toString()));
         ArrayList<Text> words = new ArrayList<Text>();
         for (int i = 0 ; i < ret.length; i++ ) {
             words.add(new Text(ret[i]));
@@ -91,4 +91,4 @@ public class MecabSurface extends GenericUDF {
     System.out.println ("EOS\n");
   }
 }
-}
+
