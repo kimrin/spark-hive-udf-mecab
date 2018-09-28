@@ -91,3 +91,4 @@ public class MecabSurface extends GenericUDF {
     System.out.println ("EOS\n");
   }
 }
+}
