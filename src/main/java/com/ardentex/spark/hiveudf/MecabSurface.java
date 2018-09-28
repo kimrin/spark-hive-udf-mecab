@@ -48,7 +48,7 @@ public class MecabSurface extends GenericUDF {
     Object oin = argments[0].get();
     if (oin instanceof String) {
         ret = this.mecab_surface((String)oin);
-    } elseif (oin instanceof Text) {
+    } else if (oin instanceof Text) {
         ret = this.mecab_surface((String)oin.toString());
         ArrayList<Text> words = new ArrayList<Text>();
         for ( i = 0 ; i < ret.length; i++ ) {
@@ -81,7 +81,7 @@ public class MecabSurface extends GenericUDF {
   public ArrayList<String> mecab_surface(String text) {
     System.out.println(tagger.parse(str));
     Node node = tagger.parseToNode(text);
-    ArrayList<String> words = ArrayList<String>();
+    ArrayList<String> words = new ArrayList<String>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
         words.add(sb.toString());
