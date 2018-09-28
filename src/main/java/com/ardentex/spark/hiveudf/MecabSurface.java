@@ -70,7 +70,7 @@ public class MecabSurface extends GenericUDF {
     Object oin = arguments[0].get();
 
     if (oin == null) return null;
-    String value = (String)outputIO.getPrimitiveJavaObject(oin); 
+    String value = (String)outputOI.getPrimitiveJavaObject(oin); 
     ret = this.mecab_surface(value);
     return ret;
   }
