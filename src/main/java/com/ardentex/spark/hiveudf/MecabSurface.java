@@ -33,12 +33,13 @@ public class MecabSurface extends GenericUDF {
   private transient ArrayList<Object> ret = new ArrayList<Object>();
   private Model model;
   private Tagger tagger = null;
+  private ObjectInspector returnOI;
 
   @Override
   public ObjectInspector initialize(ObjectInspector[] arguments) throws UDFArgumentException {
 
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
-    ObjectInspector returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
+    returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
 
     this.tagger = initialize_mecab();
 
@@ -48,14 +49,16 @@ public class MecabSurface extends GenericUDF {
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
     ret.clear();
-    Object oin = arguments[0];
+    Object oin = arguments[0].get();
     if (oin instanceof String) {
-        ret = this.mecab_surface((String)oin.getValue().toString());
+        String value = (String)inputOI.getPrimitiveJavaObject(oin); 
+        ret = this.mecab_surface(value);
     } else if (oin instanceof Text) {
-        ret = (ArrayList<Object>)(this.mecab_surface(oin.getValue().toString()));
+        String value = (String)inputOI.getPrimitiveJavaObject(oin).toString(); 
+        ret = (ArrayList<Object>)this.mecab_surface(value);
         ArrayList<Text> words = new ArrayList<Text>();
         for (int i = 0 ; i < ret.length; i++ ) {
-            words.add(new Text(ret[i]));
+            words.add(new Text(ret.get(i)));
         }
     }
     return ret;
