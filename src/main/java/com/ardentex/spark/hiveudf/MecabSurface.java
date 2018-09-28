@@ -70,7 +70,7 @@ public class MecabSurface extends GenericUDF {
     Object oin = arguments[0].get();
 
     if (oin == null) return null;
-    String value = (String)returnOI.getPrimitiveJavaObject(oin); 
+    String value = (String)outputIO.getPrimitiveJavaObject(oin); 
     ret = this.mecab_surface(value);
     return ret;
   }
@@ -94,10 +94,10 @@ public class MecabSurface extends GenericUDF {
     return tagger2;
   }
 
-  public ArrayList<String> mecab_surface(String text) {
+  public ArrayList<Object> mecab_surface(String text) {
     System.out.println(tagger.parse(text));
     Node node = tagger.parseToNode(text);
-    ArrayList<String> words = new ArrayList<String>();
+    ArrayList<Object> words = new ArrayList<Object>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
         words.add(sb.toString());
