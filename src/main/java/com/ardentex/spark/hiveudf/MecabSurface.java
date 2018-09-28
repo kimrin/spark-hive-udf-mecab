@@ -15,6 +15,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector.Category;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters.Converter;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
+import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.VoidObjectInspector;
 
@@ -36,6 +37,8 @@ public class MecabSurface extends GenericUDF {
   private Model model;
   private Tagger tagger = null;
   private ObjectInspector returnOI;
+  private PrimitiveObjectInspector inputOI;
+  private PrimitiveObjectInspector outputOI;
 
   @Override
   public ObjectInspector initialize(ObjectInspector[] arguments) throws UDFArgumentException {
@@ -55,7 +58,7 @@ public class MecabSurface extends GenericUDF {
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
 
-    inputOI  = (PrimitiveObjectInspector)args[0];
+    inputOI  = (PrimitiveObjectInspector)arguments[0];
     /* We only support STRING type */
     assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
 
