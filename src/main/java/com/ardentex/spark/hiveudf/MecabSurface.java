@@ -48,7 +48,7 @@ public class MecabSurface extends GenericUDF {
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
     ret.clear();
-    Object oin = arguments[0].get();
+    Object oin = arguments[0];
     if (oin instanceof String) {
         ret = this.mecab_surface((String)oin.getValue().toString());
     } else if (oin instanceof Text) {
