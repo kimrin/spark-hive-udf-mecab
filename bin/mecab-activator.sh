@@ -131,6 +131,7 @@ tar vzxf mecab-java-0.996.tar.gz
 cd mecab-java-0.996
 cp ${NEOLOGD_BUILD_WORK_DIR}/mkfile/Makefile.mecab.java.mk Makefile
 sudo make
-
+sudo install libmecab.so libmecab.so.2 libmecab.so.2.0.0 /usr/lib64
+make test
 
 logging main INFO 'END.'
