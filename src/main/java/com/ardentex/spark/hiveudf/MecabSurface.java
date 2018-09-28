@@ -9,6 +9,7 @@ import org.apache.hadoop.hive.ql.exec.UDFArgumentTypeException;
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF;
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDFUtils;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
+import org.apache.hadoop.hive.ql.io.parquet.serde.ArrayWritableObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters.Converter;
@@ -37,6 +38,10 @@ public class MecabSurface extends GenericUDF {
 
   @Override
   public ObjectInspector initialize(ObjectInspector[] arguments) throws UDFArgumentException {
+    // This UDF accepts one argument
+    assert (arguments.length == 1);
+    // The first argument is a primitive type
+    assert(arguments[0].getCategory() == Category.PRIMITIVE);
 
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
@@ -48,19 +53,20 @@ public class MecabSurface extends GenericUDF {
 
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
+
+    inputOI  = (PrimitiveObjectInspector)args[0];
+    /* We only support STRING type */
+    assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING;
+
+    /* And we'll return a type int, so let's return the corresponding object inspector */
+    outputOI = PrimitiveObjectInspectorFactory.WritableStringObjectInspector;
+
     ret.clear();
     Object oin = arguments[0].get();
-    if (oin instanceof String) {
-        String value = (String)returnOI.getPrimitiveJavaObject(oin); 
-        ret = this.mecab_surface(value);
-    } else if (oin instanceof Text) {
-        String value = (String)returnOI.getPrimitiveJavaObject(oin).toString(); 
-        ret = (ArrayList<Object>)this.mecab_surface(value);
-        ArrayList<Text> words = new ArrayList<Text>();
-        for (int i = 0 ; i < ret.length(); i++ ) {
-            words.add(new Text(ret.get(i)));
-        }
-    }
+
+    if (oin == null) return null;
+    String value = (String)returnOI.getPrimitiveJavaObject(oin); 
+    ret = this.mecab_surface(value);
     return ret;
   }
 
