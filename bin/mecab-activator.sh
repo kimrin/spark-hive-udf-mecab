@@ -136,4 +136,10 @@ sudo make
 sudo install libmecab.so libmecab.so.2 libmecab.so.2.0.0 /usr/lib64
 make test
 
+
+
+mkdir ${NEOLOGD_BUILD_WORK_DIR}/lib
+cp cp MeCab.jar ${NEOLOGD_BUILD_WORK_DIR}/lib
+
+
 logging main INFO 'END.'
