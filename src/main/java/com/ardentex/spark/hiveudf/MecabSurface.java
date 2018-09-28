@@ -51,13 +51,13 @@ public class MecabSurface extends GenericUDF {
     ret.clear();
     Object oin = arguments[0].get();
     if (oin instanceof String) {
-        String value = (String)inputOI.getPrimitiveJavaObject(oin); 
+        String value = (String)returnOI.getPrimitiveJavaObject(oin); 
         ret = this.mecab_surface(value);
     } else if (oin instanceof Text) {
-        String value = (String)inputOI.getPrimitiveJavaObject(oin).toString(); 
+        String value = (String)returnOI.getPrimitiveJavaObject(oin).toString(); 
         ret = (ArrayList<Object>)this.mecab_surface(value);
         ArrayList<Text> words = new ArrayList<Text>();
-        for (int i = 0 ; i < ret.length; i++ ) {
+        for (int i = 0 ; i < ret.length(); i++ ) {
             words.add(new Text(ret.get(i)));
         }
     }
