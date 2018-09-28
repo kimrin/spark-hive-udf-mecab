@@ -89,6 +89,7 @@ public class MecabSurface extends GenericUDF {
     } catch (UnsatisfiedLinkError e) {
        System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
        System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
+       tagger2 = null;
        boo = false;
     }
     return tagger2;
@@ -103,6 +104,7 @@ public class MecabSurface extends GenericUDF {
         words.add(sb.toString());
     }
     System.out.println ("EOS\n");
+    return words;
   }
 }
 
