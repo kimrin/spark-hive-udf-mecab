@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# use this repository files: https://github.com/kazuhira-r/kuromoji-with-mecab-neologd-buildscript
+# do not use this script during the period of using libMeCab.so (this script contains install of it.)
 ########## Init ##########
 SCRIPT_NAME=$0
 NEOLOGD_BUILD_WORK_DIR=`pwd`
