@@ -83,8 +83,8 @@ public class MecabSurface extends GenericUDF {
   public Tagger initialize_mecab() {
     Tagger tagger2;
     Boolean boo = true;
-    if (this.tagger2 != null) {
-        return this.tagger2;
+    if (this.tagger != null) {
+        return this.tagger;
     }
     try {
        System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
