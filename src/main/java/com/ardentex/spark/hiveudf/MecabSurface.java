@@ -66,7 +66,7 @@ public class MecabSurface extends GenericUDF {
     System.err.println("after assert");
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
-    outputOI = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
+    this.outputOI = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
     System.err.println("after outputOI");
 
     ret.clear();
@@ -74,7 +74,7 @@ public class MecabSurface extends GenericUDF {
     System.err.println("after oin:"+oin.toString());
 
     if (oin == null) return null;
-    String value = (String)outputOI.getPrimitiveJavaObject(oin);
+    String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
     System.err.println(value); 
     ret = this.mecab_surface(value);
     System.err.println("success! "+ret.toString()); 
