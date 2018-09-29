@@ -1,3 +1,91 @@
+# Sample MeCab UDF for Apache Hive
+
+also Apache Spark do the same thing with calling the Hive UDF.
+
+## Introduction
+このリポジトリはSampleのHive UDF projectを拡張し、形態素解析システムであるMeCabを
+UDFから使えるようにする一連のプログラムです。
+開発にあたって、下記のリポジトリのshell fileを改悪しましたことをご報告申し上げます。。。
+
+<https://github.com/kazuhira-r/kuromoji-with-mecab-neologd-buildscript>
+
+現状では分かち書きだけがサポートされています。
+品詞も出すことは簡単なんですが、aggrigateして単語と品詞のコラムに分割して
+SELECT文を実行できるようにするんですかねー、とか面倒だったので、今のところ
+分かち書きだけです。neologd対応がまだ出来ていなくて、素のMeCabになっちゃってます。
+これも今後直します。
+
+## 制約
+
+Amazon EMR 上のHive並びにHueからのHiveインターフェイスで動きます。
+ただし事前にEMRのmaster nodeにsshしてスクリプトを実行する必要があります。
+
+今のところ、map reduceが動くとslaveにmecabがインストールしてない場合は
+落ちます。こっそり少しづつ流してください。
+
+## Building
+
+Amazon EMRについては、hiveを入れていただければ特にこれと言った制約はないですが、
+メモリーに8GBくらい余裕がないとビルドで落ちます。
+マスターを大きめのマシンにしてください。
+では、Amazon EMRのマスターノードにssh出来た前提でインストール手順を説明します。
+
+```
+sudo yum install -y git
+git clone https://github.com/kimrin/spark-hive-udf-mecab.git
+cd spark-hive-udf-mecab/
+```
+まずはこのレポジトリを展開します。
+
+```
+sudo ./bin/mecab-activator.sh
+```
+このシェルスクリプトを実行します。mecabをインストールし、neologd対応をし、
+mecab java bindings をインストールします。
+
+成功すると（結構時間かかります）形態素解析の結果がJavaプログラムを通して実行された
+ログが出ます。（太郎がなんとか）
+
+```
+./bin/activator +jar
+```
+
+次にUDF(Java)をビルドします。このレポジトリの元々の内容を利用します。
+
+成功するとグリーンやブルーの表示が出て終わると思います。
+終わったら、手作業で恐縮なのですが。。。
+
+```
+cp target/scala-2.10/spark-hive-udf_2.10-0.1.0.jar ..
+```
+
+してjarを`/home/hadoop`にコピーします。
+
+すでにMeCab.jarもそこにあるかと思います。
+
+```
+cd ..
+hive
+```
+（Hueでのhiveインターフェイスについてはこれから実験しますのであとでドキュメントを追加します）
+
+
+
+That command will download the dependencies (if they haven't already been
+downloaded), compile the code, run the unit tests, and create jar files for
+both Scala 2.10 and Scala 2.11. Those jars will be:
+
+* Scala 2.10: `target/scala-2.10/spark-hive-udf_2.10-0.1.0.jar`
+* Scala 2.11: `target/scala-2.11/spark-hive-udf_2.11-0.1.0.jar`
+
+### Building with Maven
+
+Honestly, I'm not a big fan of Maven. I had a Maven `pom.xml` file here, but
+I got tired of maintaining two build files. Just use `activator`, as described 
+above.
+
+
+
 # Sample Hive UDF project
 
 ## Introduction
