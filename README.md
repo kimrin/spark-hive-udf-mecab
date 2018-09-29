@@ -113,8 +113,24 @@ SELECT keyword, surface(keyword) FROM full_query WHERE ver='2018-06-01' AND sub_
 （HiveのTABLEの作り方とかは割愛させていだだきます。）
 
 ## Hue
+基本やることは一緒なんですが、JARファイルがhdfsから見えるところに置く必要があります。
+具体的にはscpでまずリモートのmasterサーバーから二つの`/home/hadoop`にあるJARファイルを
+HueのhdfsのUIを使って、適当な場所（ここでは`/user/kimrin/`）にコピーして、
+それをADD JARします。
 
-乞うご期待！（まだ書いてない）
+```
+ADD JAR hdfs:///user/kimrin/MeCab.jar
+ADD JAR hdfs:///user/kimrin/spark-hive-udf_2.10-0.1.0.jar
+
+CREATE TEMPORARY FUNCTION surface AS 'com.ardentex.spark.hiveudf.MecabSurface';
+
+SELECT keyword, surface(keyword) FROM full_query WHERE ver='2018-06-01' AND sub_ver='00-00-00' LIMIT 10000;
+```
+
+## bug
+
+最初のレコードだけsurfaceの結果がおかしいんですが、あとで直します。。。
+
 
 # original description starts with here
 
