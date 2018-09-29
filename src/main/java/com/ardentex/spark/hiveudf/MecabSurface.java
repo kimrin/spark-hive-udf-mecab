@@ -95,7 +95,7 @@ public class MecabSurface extends GenericUDF {
        tagger2 = null;
        boo = false;
     }
-    System.err.println("tagger2="+tagger2.hashcode());
+    System.err.println("tagger2="+tagger2.hashCode());
     return tagger2;
   }
 
