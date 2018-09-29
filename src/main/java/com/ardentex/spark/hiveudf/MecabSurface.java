@@ -50,7 +50,7 @@ public class MecabSurface extends GenericUDF {
 
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
-
+    System.out.println("java.library.path="+System.getProperty("java.library.path"));
     this.tagger = initialize_mecab();
 
     return ObjectInspectorFactory.getStandardListObjectInspector(returnOI);
