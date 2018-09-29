@@ -113,18 +113,18 @@ public class MecabSurface extends GenericUDF {
        tagger2 = null;
        boo = false;
     }
-    System.err.println("tagger2="+tagger2.hashCode());
+    //System.err.println("tagger2="+tagger2.hashCode());
     return tagger2;
   }
 
   public ArrayList<Object> mecab_surface(String text) {
-    System.err.println(tagger.parse(text));
+    // System.err.println(tagger.parse(text));
     Node node = tagger.parseToNode(text);
     ArrayList<Object> words = new ArrayList<Object>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
         String w = sb.toString();
-        if (w != "") {
+        if (w.length() > 0) {
             words.add(w);
         }
     }
