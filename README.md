@@ -65,7 +65,6 @@ cp target/scala-2.10/spark-hive-udf_2.10-0.1.0.jar ..
 
 ```
 cd ..
-hive
 ```
 （Hueでのhiveインターフェイスについてはこれから実験しますのであとでドキュメントを追加します）
 
@@ -80,11 +79,44 @@ both Scala 2.10 and Scala 2.11. Those jars will be:
 
 ### Building with Maven
 
-Honestly, I'm not a big fan of Maven. I had a Maven `pom.xml` file here, but
-I got tired of maintaining two build files. Just use `activator`, as described 
-above.
+知らない子ですね。。。
 
+## Hiveでの使い方
 
+まずは/home/hadoopでhiveとコマンドを打ちます。
+
+```
+hive
+```
+
+まずjarファイルを登録します。二つあります。
+
+```
+ADD JAR MeCab.jar;
+ADD JAR spark-hive-udf_2.10-0.1.0.jar;
+```
+これは楽勝でしょう。
+
+```
+CREATE TEMPORARY FUNCTION surface AS 'com.ardentex.spark.hiveudf.MecabSurface';
+```
+
+テンポラリ関数としてsurfaceというUDF(User Defined Function)を設定します。
+普通のFUNCTIONにすることも出来ますが、永続しますので最初はテンポラリがいいかと思います。
+
+使い方としては、
+```
+SELECT keyword, surface(keyword) FROM full_query WHERE ver='2018-06-01' AND sub_ver='00-00-00';
+```
+のようにSELECTなどのところにsurface(columnname)という感じで使います。Stringのフィールドが対象です。
+結果としてARRAY of STRINGの分かち書きされた結果が入ります。
+（HiveのTABLEの作り方とかは割愛させていだだきます。）
+
+## Hue
+
+乞うご期待！（まだ書いてない）
+
+# original description starts with here
 
 # Sample Hive UDF project
 
