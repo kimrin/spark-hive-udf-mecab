@@ -123,8 +123,9 @@ public class MecabSurface extends GenericUDF {
     ArrayList<Object> words = new ArrayList<Object>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
-        if (sb.toString != "") {
-            words.add(sb.toString());
+        w = sb.toString();
+        if (w != "") {
+            words.add(w);
         }
     }
     return words;
