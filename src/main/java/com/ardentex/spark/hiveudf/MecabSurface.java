@@ -84,7 +84,7 @@ public class MecabSurface extends GenericUDF {
     Tagger tagger2;
     Boolean boo = true;
     try {
-       System.load("/usr/lib64/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
+       System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
        tagger2 = new Tagger("-d /home/hadoop/spark-hive-udf-mecab/mecab-ipadic-neologd/");
     } catch (UnsatisfiedLinkError e) {
        System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
