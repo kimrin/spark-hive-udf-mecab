@@ -59,25 +59,24 @@ public class MecabSurface extends GenericUDF {
 
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
-    System.err.println("enter evaluate");
-    System.err.println("after inputOI");
+    // System.err.println("enter evaluate");
     /* We only support STRING type */
     assert(this.inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
-    System.err.println("after assert");
+    // System.err.println("after assert");
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
     this.outputOI = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
-    System.err.println("after outputOI");
+    // System.err.println("after outputOI");
 
     ret.clear();
     Object oin = arguments[0].get();
-    System.err.println("after oin:"+oin.toString());
+    // System.err.println("after oin:"+oin.toString());
 
     if (oin == null) return null;
     String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
-    System.err.println(value); 
+    // System.err.println(value); 
     ret = this.mecab_surface(value);
-    System.err.println("success! "+ret.toString()); 
+    // System.err.println("success! "+ret.toString()); 
     return ret;
   }
 
@@ -124,9 +123,10 @@ public class MecabSurface extends GenericUDF {
     ArrayList<Object> words = new ArrayList<Object>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
-        words.add(sb.toString());
+        if (sb.toString != "") {
+            words.add(sb.toString());
+        }
     }
-    System.err.println ("EOS\n");
     return words;
   }
 }
