@@ -136,13 +136,8 @@ sudo make
 sudo install ../../mecab/lib/libmecab.so ../../mecab/lib/libmecab.so.2 ../../mecab/lib/libmecab.so.2.0.0 /usr/lib64
 cp MeCab.jar ${NEOLOGD_BUILD_WORK_DIR}/..
 mkdir ${NEOLOGD_BUILD_WORK_DIR}/lib
-<<<<<<< Updated upstream
 cp MeCab.jar ${NEOLOGD_BUILD_WORK_DIR}/lib
 export LD_LIBRARY_PATH=/usr/lib64:.
-=======
-cp MeCab.jar ${NEOLOGD_BUILD_WORK_DIR}/lib/
-
->>>>>>> Stashed changes
 make test
 
 logging main INFO 'END.'
