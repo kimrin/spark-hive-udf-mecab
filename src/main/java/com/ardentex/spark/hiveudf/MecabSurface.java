@@ -93,7 +93,13 @@ public class MecabSurface extends GenericUDF {
        System.err.println("tailor swift");
        System.err.println(MeCab.VERSION);
        System.err.println("clapton");
-       tagger2 = new Tagger("-d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
+       try {
+           tagger2 = new Tagger("-d/home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
+       } catch (RuntimeError e) {
+           System.err.println("catch RuntimeError:");
+           System.err.println(e.getStackTrace());
+           tagger2 = null;
+       }
        System.err.println("And you've done.");
     } catch (UnsatisfiedLinkError e) {
        System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
