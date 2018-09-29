@@ -58,20 +58,26 @@ public class MecabSurface extends GenericUDF {
 
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
-
+    Syste.err.println("enter evaluate");
     inputOI  = (PrimitiveObjectInspector)arguments[0];
+    Syste.err.println("after inputOI");
     /* We only support STRING type */
     assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
+    Syste.err.println("after assert");
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
     outputOI = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
+    Syste.err.println("after outputOI");
 
     ret.clear();
     Object oin = arguments[0].get();
+    Syste.err.println("after oin:"+oin.toString());
 
     if (oin == null) return null;
-    String value = (String)outputOI.getPrimitiveJavaObject(oin); 
+    String value = (String)outputOI.getPrimitiveJavaObject(oin);
+    System.err.println(value); 
     ret = this.mecab_surface(value);
+    System.err.println("success! "+ret.toString()); 
     return ret;
   }
 
@@ -86,13 +92,13 @@ public class MecabSurface extends GenericUDF {
     if (this.tagger != null) {
         return this.tagger;
     }
-    System.err.println("beberexha");
+    // System.err.println("beberexha");
     try {
-       System.err.println("ladygaga");
+       // System.err.println("ladygaga");
        System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
-       System.err.println("tailor swift");
-       System.err.println(MeCab.VERSION);
-       System.err.println("clapton");
+       // System.err.println("tailor swift");
+       // System.err.println(MeCab.VERSION);
+       // System.err.println("clapton");
        try {
            // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
            tagger2 = new Tagger();
@@ -101,7 +107,7 @@ public class MecabSurface extends GenericUDF {
            e.printStackTrace();
            tagger2 = null;
        }
-       System.err.println("And you've done.");
+       // System.err.println("And you've done.");
     } catch (UnsatisfiedLinkError e) {
        System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
        System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
