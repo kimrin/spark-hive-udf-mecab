@@ -58,20 +58,20 @@ public class MecabSurface extends GenericUDF {
 
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
-    Syste.err.println("enter evaluate");
+    System.err.println("enter evaluate");
     inputOI  = (PrimitiveObjectInspector)arguments[0];
-    Syste.err.println("after inputOI");
+    System.err.println("after inputOI");
     /* We only support STRING type */
     assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
-    Syste.err.println("after assert");
+    System.err.println("after assert");
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
     outputOI = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
-    Syste.err.println("after outputOI");
+    System.err.println("after outputOI");
 
     ret.clear();
     Object oin = arguments[0].get();
-    Syste.err.println("after oin:"+oin.toString());
+    System.err.println("after oin:"+oin.toString());
 
     if (oin == null) return null;
     String value = (String)outputOI.getPrimitiveJavaObject(oin);
