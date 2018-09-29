@@ -47,10 +47,11 @@ public class MecabSurface extends GenericUDF {
     assert (arguments.length == 1);
     // The first argument is a primitive type
     assert(arguments[0].getCategory() == Category.PRIMITIVE);
+    this.inputOI  = (PrimitiveObjectInspector)arguments[0];
 
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
-    System.out.println("java.library.path="+System.getProperty("java.library.path"));
+    // System.out.println("java.library.path="+System.getProperty("java.library.path"));
     this.tagger = initialize_mecab();
 
     return ObjectInspectorFactory.getStandardListObjectInspector(returnOI);
@@ -59,10 +60,9 @@ public class MecabSurface extends GenericUDF {
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
     System.err.println("enter evaluate");
-    inputOI  = (PrimitiveObjectInspector)arguments[0];
     System.err.println("after inputOI");
     /* We only support STRING type */
-    assert(inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
+    assert(this.inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
     System.err.println("after assert");
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
