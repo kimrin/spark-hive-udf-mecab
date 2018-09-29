@@ -100,7 +100,12 @@ public class MecabSurface extends GenericUDF {
        // System.err.println("clapton");
        try {
            // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
-           tagger2 = new Tagger();
+           try {
+               tagger2 = new Tagger();
+           } catch (UnsatisfiedLinkError e) {
+               System.err.println(e)
+               tagger2 = null;
+           }
        } catch (java.lang.Exception e) {
            System.err.println("catch RuntimeError:");
            e.printStackTrace();
