@@ -83,6 +83,9 @@ public class MecabSurface extends GenericUDF {
   public Tagger initialize_mecab() {
     Tagger tagger2;
     Boolean boo = true;
+    if (this.tagger2 != null) {
+        return this.tagger2;
+    }
     try {
        System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
        tagger2 = new Tagger("-d /home/hadoop/spark-hive-udf-mecab/mecab-ipadic-neologd/");
@@ -96,14 +99,14 @@ public class MecabSurface extends GenericUDF {
   }
 
   public ArrayList<Object> mecab_surface(String text) {
-    // System.out.println(tagger.parse(text));
+    System.out.println(tagger.parse(text));
     Node node = tagger.parseToNode(text);
     ArrayList<Object> words = new ArrayList<Object>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
         words.add(sb.toString());
     }
-    // System.out.println ("EOS\n");
+    System.out.println ("EOS\n");
     return words;
   }
 }
