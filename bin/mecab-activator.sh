@@ -133,11 +133,11 @@ tar vzxf mecab-java-0.996.tar.gz
 cd mecab-java-0.996
 cp ${NEOLOGD_BUILD_WORK_DIR}/mkfile/Makefile.mecab.java.mk Makefile
 sudo make
-sudo install ../../mecab/lib/libmecab.so ../../mecab/lib/libmecab.so.2 ../../mecab/lib/libmecab.so.2.0.0 /usr/lib64
+sudo install ../../mecab/lib/libmecab.so ../../mecab/lib/libmecab.so.2 ../../mecab/lib/libmecab.so.2.0.0 /usr/lib/hadoop/lib/native/
 cp MeCab.jar ${NEOLOGD_BUILD_WORK_DIR}/..
 mkdir ${NEOLOGD_BUILD_WORK_DIR}/lib
 cp MeCab.jar ${NEOLOGD_BUILD_WORK_DIR}/lib
-export LD_LIBRARY_PATH=/usr/lib64:.
+export LD_LIBRARY_PATH=/usr/lib64:/usr/lib/hadoop-lzo/lib/native:/usr/lib/hadoop/lib/native:.
 make test
 
 logging main INFO 'END.'
