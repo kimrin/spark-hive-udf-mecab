@@ -66,7 +66,7 @@ public class MecabSurface extends GenericUDF {
                 //// tagger2 = new Tagger();
                 this.model = new Model();
                 this.tagger = model.createTagger();
-                this.lattice = model.createLattice();
+                //this.lattice = model.createLattice();
 
             } catch (java.lang.Exception e) {
                 System.err.println("catch RuntimeError:");
@@ -103,21 +103,27 @@ public class MecabSurface extends GenericUDF {
     if (oin == null) return null;
     String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
     System.err.println(value); 
-    Node node = null;
-    this.tagger.parse(lattice);
     ArrayList<Object> words = new ArrayList<Object>();
-
-    this.lattice.set_sentence(value);
-    if (this.tagger.parse(lattice)) {
-       System.out.println(lattice.toString());
-       for (node = lattice.bos_node(); node != null; node = node.getNext()) {
-          StringBuffer sb = new StringBuffer(node.getSurface());
-          String w = sb.toString();
-          if (w.length() > 0) {
-             words.add(w);
-          }
-       }
+    Node node = this.tagger.parseToNode(value);
+    for (;node != null; node = node.getNext()) {
+        StringBuffer sb = new StringBuffer(node.getSurface());
+        String w = sb.toString();
+        if (w.length() > 0) {
+            words.add(w);
+        }
     }
+    //this.tagger.parse(lattice);
+    //this.lattice.set_sentence(value);
+    // if (this.tagger.parse(lattice)) {
+    //    System.out.println(lattice.toString());
+    //    for (node = lattice.bos_node(); node != null; node = node.getNext()) {
+    //       StringBuffer sb = new StringBuffer(node.getSurface());
+    //       String w = sb.toString();
+    //       if (w.length() > 0) {
+    //          words.add(w);
+    //       }
+    //    }
+    // }
     // for (;node != null; node = node.getNext()) {
     //     StringBuffer sb = new StringBuffer(node.getSurface());
     //     String w = sb.toString();
