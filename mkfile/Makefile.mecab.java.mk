@@ -1,8 +1,8 @@
 TARGET=MeCab
-JAVAC=javac
-JAVA=java
-JAR=jar
-CXX=c++
+JAVAC=javac -J-Dfile.encoding=UTF-8
+JAVA=java -Dfile.encoding=UTF-8
+JAR=jar -J-Dfile.encoding=UTF-8
+CXX=g++
 INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-8.b13.39.39.amzn1.x86_64/include/
 
 PACKAGE=org/chasen/mecab
@@ -10,14 +10,14 @@ HOME=/home/hadoop
 DIR=$(HOME)/spark-hive-udf-mecab
 
 MKBCONFIG=$(DIR)/mecab/bin/mecab-config 
-LIBS=`$(MKBCONFIG) --libs`
-INC=`$(MKBCONFIG) --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux 
+LIBS=-arch x86_64 `$(MKBCONFIG) --libs`
+INC=-arch x86_64 `$(MKBCONFIG) --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux 
 
 all:
 	$(CXX) -O3 -c -fpic $(TARGET)_wrap.cxx  $(INC)
 	$(CXX) -shared  $(TARGET)_wrap.o -o lib$(TARGET).so $(LIBS)
-	$(JAVAC) -encoding UTF-8 $(PACKAGE)/*.java
-	$(JAVAC) -encoding UTF-8 test.java
+	$(JAVAC) $(PACKAGE)/*.java
+	$(JAVAC) test.java
 	$(JAR) cfv $(TARGET).jar $(PACKAGE)/*.class
 
 test:
