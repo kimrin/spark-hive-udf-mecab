@@ -41,7 +41,14 @@ public class MecabSurface extends GenericUDF {
   private Tagger tagger = null;
   private Model model = null;
   private Lattice lattice = null;
-
+  static {
+    try {
+       System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
+    } catch (UnsatisfiedLinkError e) {
+       System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
+       System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
+    }
+  }
   @Override
   public ObjectInspector initialize(ObjectInspector[] arguments) throws UDFArgumentException {
     // This UDF accepts one argument
@@ -57,7 +64,7 @@ public class MecabSurface extends GenericUDF {
     if (this.tagger == null) {
         System.err.println("beberexha");
         try {
-            System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
+            //System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
             System.err.println("tailor swift");
             System.err.println(MeCab.VERSION);
             System.err.println("clapton");
