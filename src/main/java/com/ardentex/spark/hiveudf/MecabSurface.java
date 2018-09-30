@@ -35,11 +35,10 @@ import org.chasen.mecab.Node;
 public class MecabSurface extends GenericUDF {
   private transient Converter[] converters;
   private transient ArrayList<Object> ret = new ArrayList<Object>();
-  private Model model;
-  private Tagger tagger = null;
   private ObjectInspector returnOI;
   private PrimitiveObjectInspector inputOI;
   private PrimitiveObjectInspector outputOI;
+  private Tagger tagger = null;
   private Model model = null;
   private Lattice lattice = null;
 
