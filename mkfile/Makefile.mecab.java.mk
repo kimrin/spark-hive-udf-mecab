@@ -10,8 +10,8 @@ HOME=/home/hadoop
 DIR=$(HOME)/spark-hive-udf-mecab
 
 MKBCONFIG=$(DIR)/mecab/bin/mecab-config 
-LIBS=-arch x86_64 `$(MKBCONFIG) --libs`
-INC=-arch x86_64 `$(MKBCONFIG) --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux 
+LIBS= -m64 `$(MKBCONFIG) --libs`
+INC= -m64 `$(MKBCONFIG) --cflags` -I$(INCLUDE) -I$(INCLUDE)/linux 
 
 all:
 	$(CXX) -O3 -c -fpic $(TARGET)_wrap.cxx  $(INC)
