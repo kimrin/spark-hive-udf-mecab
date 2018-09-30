@@ -40,6 +40,8 @@ public class MecabSurface extends GenericUDF {
   private ObjectInspector returnOI;
   private PrimitiveObjectInspector inputOI;
   private PrimitiveObjectInspector outputOI;
+  private Model model = null;
+  private Lattice lattice = null;
 
   @Override
   public ObjectInspector initialize(ObjectInspector[] arguments) throws UDFArgumentException {
@@ -63,6 +65,10 @@ public class MecabSurface extends GenericUDF {
             try {
                 // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
                 //// tagger2 = new Tagger();
+                this.model = new Model();
+                this.tagger = model.createTagger();
+                this.lattice = model.createLattice();
+
             } catch (java.lang.Exception e) {
                 System.err.println("catch RuntimeError:");
                 e.printStackTrace();
@@ -98,8 +104,21 @@ public class MecabSurface extends GenericUDF {
     if (oin == null) return null;
     String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
     System.err.println(value); 
-    // Node node = tagger.parseToNode(value);
+    Node node = null;
+    this.tagger.parse(lattice);
     ArrayList<Object> words = new ArrayList<Object>();
+
+    this.lattice.set_sentence(value);
+    if (this.tagger.parse(lattice)) {
+       System.out.println(lattice.toString());
+       for (node = lattice.bos_node(); node != null; node = node.getNext()) {
+          StringBuffer sb = new StringBuffer(node.getSurface());
+          String w = sb.toString();
+          if (w.length() > 0) {
+             words.add(w);
+          }
+       }
+    }
     // for (;node != null; node = node.getNext()) {
     //     StringBuffer sb = new StringBuffer(node.getSurface());
     //     String w = sb.toString();
@@ -109,7 +128,6 @@ public class MecabSurface extends GenericUDF {
     // }
     // ret = words;
     // System.err.println("success! "+ret.toString()); 
-    words.add(value);
     ret = words;
     return ret;
   }
