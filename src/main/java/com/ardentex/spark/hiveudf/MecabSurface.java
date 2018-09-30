@@ -52,7 +52,32 @@ public class MecabSurface extends GenericUDF {
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
     System.out.println("java.library.path="+System.getProperty("java.library.path"));
-    this.tagger = initialize_mecab();
+    Tagger tagger2;
+    if (this.tagger != null) {
+        return this.tagger;
+    }
+    System.err.println("beberexha");
+    try {
+       System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
+       System.err.println("tailor swift");
+       System.err.println(MeCab.VERSION);
+       System.err.println("clapton");
+       try {
+            // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
+            tagger2 = new Tagger();
+       } catch (java.lang.Exception e) {
+            System.err.println("catch RuntimeError:");
+            e.printStackTrace();
+            tagger2 = null;
+       }
+       System.err.println("And you've done.");
+    } catch (UnsatisfiedLinkError e) {
+       System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
+       System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
+       tagger2 = null;
+    }
+    System.err.println("tagger2="+tagger2.hashCode());
+    this.tagger = tagger2;
 
     return ObjectInspectorFactory.getStandardListObjectInspector(returnOI);
   }
@@ -74,57 +99,8 @@ public class MecabSurface extends GenericUDF {
 
     if (oin == null) return null;
     String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
-    // System.err.println(value); 
-    ret = this.mecab_surface(value);
-    // System.err.println("success! "+ret.toString()); 
-    return ret;
-  }
-
-  @Override
-  public String getDisplayString(String[] children) {
-    return getStandardDisplayString("array", children, ",");
-  }
-
-  public Tagger initialize_mecab() {
-    Tagger tagger2;
-    Boolean boo = true;
-    if (this.tagger != null) {
-        return this.tagger;
-    }
-    // System.err.println("beberexha");
-    try {
-       // System.err.println("ladygaga");
-       System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
-       // System.err.println("tailor swift");
-       // System.err.println(MeCab.VERSION);
-       // System.err.println("clapton");
-       try {
-           // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
-           try {
-               tagger2 = new Tagger();
-           } catch (UnsatisfiedLinkError e) {
-               System.err.println(e);
-               tagger2 = null;
-           }
-       } catch (java.lang.Exception e) {
-           System.err.println("catch RuntimeError:");
-           e.printStackTrace();
-           tagger2 = null;
-       }
-       // System.err.println("And you've done.");
-    } catch (UnsatisfiedLinkError e) {
-       System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
-       System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
-       tagger2 = null;
-       boo = false;
-    }
-    //System.err.println("tagger2="+tagger2.hashCode());
-    return tagger2;
-  }
-
-  public ArrayList<Object> mecab_surface(String text) {
-    // System.err.println(tagger.parse(text));
-    Node node = tagger.parseToNode(text);
+    System.err.println(value); 
+    Node node = tagger.parseToNode(value);
     ArrayList<Object> words = new ArrayList<Object>();
     for (;node != null; node = node.getNext()) {
         StringBuffer sb = new StringBuffer(node.getSurface());
@@ -133,7 +109,14 @@ public class MecabSurface extends GenericUDF {
             words.add(w);
         }
     }
-    return words;
+    ret = words;
+    System.err.println("success! "+ret.toString()); 
+    return ret;
+  }
+
+  @Override
+  public String getDisplayString(String[] children) {
+    return getStandardDisplayString("array", children, ",");
   }
 }
 
