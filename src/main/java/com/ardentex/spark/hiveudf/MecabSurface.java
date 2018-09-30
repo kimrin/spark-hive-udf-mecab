@@ -51,7 +51,7 @@ public class MecabSurface extends GenericUDF {
 
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
-    // System.out.println("java.library.path="+System.getProperty("java.library.path"));
+    System.out.println("java.library.path="+System.getProperty("java.library.path"));
     this.tagger = initialize_mecab();
 
     return ObjectInspectorFactory.getStandardListObjectInspector(returnOI);
@@ -94,7 +94,7 @@ public class MecabSurface extends GenericUDF {
     // System.err.println("beberexha");
     try {
        // System.err.println("ladygaga");
-       System.loadLibrary("MeCab"); // refrain from using loadLibrary for some serious reasons...
+       System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
        // System.err.println("tailor swift");
        // System.err.println(MeCab.VERSION);
        // System.err.println("clapton");
@@ -103,7 +103,7 @@ public class MecabSurface extends GenericUDF {
            try {
                tagger2 = new Tagger();
            } catch (UnsatisfiedLinkError e) {
-               System.err.println(e)
+               System.err.println(e);
                tagger2 = null;
            }
        } catch (java.lang.Exception e) {
