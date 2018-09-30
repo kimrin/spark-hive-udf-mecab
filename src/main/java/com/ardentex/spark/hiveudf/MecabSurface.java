@@ -115,6 +115,9 @@ public class MecabSurface extends GenericUDF {
     if (value == null) {
         return words;
     }
+    if (this.tagger == null) { // recovery...even broken...
+        this.tagger = this.model.createTagger();
+    }
     node = this.tagger.parseToNode(value);
     if (node == null) {
         return words; // null for irregular cases.
