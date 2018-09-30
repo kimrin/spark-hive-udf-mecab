@@ -52,7 +52,7 @@ public class MecabSurface extends GenericUDF {
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
     System.out.println("java.library.path="+System.getProperty("java.library.path"));
-    Tagger tagger2;
+    Tagger tagger2 = null;
     if (this.tagger == null) {
         System.err.println("beberexha");
         try {
@@ -62,7 +62,7 @@ public class MecabSurface extends GenericUDF {
             System.err.println("clapton");
             try {
                 // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
-                tagger2 = new Tagger();
+                //// tagger2 = new Tagger();
             } catch (java.lang.Exception e) {
                 System.err.println("catch RuntimeError:");
                 e.printStackTrace();
@@ -98,17 +98,19 @@ public class MecabSurface extends GenericUDF {
     if (oin == null) return null;
     String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
     System.err.println(value); 
-    Node node = tagger.parseToNode(value);
-    ArrayList<Object> words = new ArrayList<Object>();
-    for (;node != null; node = node.getNext()) {
-        StringBuffer sb = new StringBuffer(node.getSurface());
-        String w = sb.toString();
-        if (w.length() > 0) {
-            words.add(w);
-        }
-    }
+    // Node node = tagger.parseToNode(value);
+    // ArrayList<Object> words = new ArrayList<Object>();
+    // for (;node != null; node = node.getNext()) {
+    //     StringBuffer sb = new StringBuffer(node.getSurface());
+    //     String w = sb.toString();
+    //     if (w.length() > 0) {
+    //         words.add(w);
+    //     }
+    // }
+    // ret = words;
+    // System.err.println("success! "+ret.toString()); 
+    words.add(value);
     ret = words;
-    System.err.println("success! "+ret.toString()); 
     return ret;
   }
 
