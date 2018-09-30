@@ -112,6 +112,9 @@ public class MecabSurface extends GenericUDF {
     System.err.println(value); 
     ArrayList<Object> words = new ArrayList<Object>();
     Node node = null;
+    if (value == null) {
+        return words;
+    }
     node = this.tagger.parseToNode(value);
     if (node == null) {
         return words; // null for irregular cases.
