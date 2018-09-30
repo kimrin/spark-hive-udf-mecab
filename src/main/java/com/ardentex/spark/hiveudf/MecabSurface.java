@@ -65,7 +65,7 @@ public class MecabSurface extends GenericUDF {
                 // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
                 //// tagger2 = new Tagger();
                 this.model = new Model();
-                this.tagger = model.createTagger();
+                this.tagger = this.model.createTagger();
                 //this.lattice = model.createLattice();
 
             } catch (java.lang.Exception e) {
