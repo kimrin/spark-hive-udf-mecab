@@ -74,7 +74,7 @@ public class MecabSurface extends GenericUDF {
             System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
             tagger2 = null;
         }
-        System.err.println("tagger2="+tagger2.hashCode());
+        //System.err.println("tagger2="+tagger2.hashCode());
         this.tagger = tagger2;
     }
     return ObjectInspectorFactory.getStandardListObjectInspector(returnOI);
