@@ -49,6 +49,15 @@ public class MecabSurface extends GenericUDF {
        System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
     }
   }
+  static void duplicateload() {
+    try {
+       System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
+    } catch (UnsatisfiedLinkError e) {
+       System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
+       System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
+    }
+    return;
+  }
   @Override
   public ObjectInspector initialize(ObjectInspector[] arguments) throws UDFArgumentException {
     // This UDF accepts one argument
@@ -106,6 +115,8 @@ public class MecabSurface extends GenericUDF {
         return words;
     }
     if (this.tagger == null) { // recovery...even broken...
+        MecabSurface.duplicateload();
+        this.model = new Model();
         this.tagger = this.model.createTagger();
     }
     node = this.tagger.parseToNode(value);
