@@ -40,7 +40,7 @@ public class MecabSurface extends GenericUDF {
   private PrimitiveObjectInspector outputOI;
   private Tagger tagger = null;
   private Model model = null;
-  private Lattice lattice = null;
+
   static {
     try {
        System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
@@ -59,15 +59,11 @@ public class MecabSurface extends GenericUDF {
 
     GenericUDFUtils.ReturnObjectInspectorResolver returnOIResolver = new GenericUDFUtils.ReturnObjectInspectorResolver(true);
     returnOI = returnOIResolver.get(PrimitiveObjectInspectorFactory.javaStringObjectInspector);
-    System.out.println("java.library.path="+System.getProperty("java.library.path"));
+    // System.out.println("java.library.path="+System.getProperty("java.library.path"));
     Tagger tagger2 = null;
     if (this.tagger == null) {
-        System.err.println("beberexha");
         try {
-            //System.load("/usr/lib/hadoop/lib/native/libMeCab.so"); // refrain from using loadLibrary for some serious reasons...
-            System.err.println("tailor swift");
-            System.err.println(MeCab.VERSION);
-            System.err.println("clapton");
+            System.err.println("Powered by MeCab: Version " + MeCab.VERSION);
             try {
                 // tagger2 = new Tagger("-Ochasen -d /home/hadoop/spark-hive-udf-mecab/mecab/lib/mecab/dic/");
                 //// tagger2 = new Tagger();
@@ -80,7 +76,6 @@ public class MecabSurface extends GenericUDF {
                 e.printStackTrace();
                 tagger2 = null;
             }
-            System.err.println("And you've done.");
         } catch (UnsatisfiedLinkError e) {
             System.err.println("Cannot load the example native code.\nMake sure your LD_LIBRARY_PATH contains \'.\'\n" + e);
             System.err.println("*** I would like to stop this program with exit.\nbut I can not...");
@@ -94,22 +89,17 @@ public class MecabSurface extends GenericUDF {
 
   @Override
   public Object evaluate(DeferredObject[] arguments) throws HiveException {
-    // System.err.println("enter evaluate");
     /* We only support STRING type */
     assert(this.inputOI.getPrimitiveCategory() == PrimitiveCategory.STRING);
-    // System.err.println("after assert");
 
     /* And we'll return a type int, so let's return the corresponding object inspector */
     this.outputOI = PrimitiveObjectInspectorFactory.writableStringObjectInspector;
-    // System.err.println("after outputOI");
 
     ret.clear();
     Object oin = arguments[0].get();
-    // System.err.println("after oin:"+oin.toString());
 
     if (oin == null) return null;
     String value = (String)this.inputOI.getPrimitiveJavaObject(oin);
-    System.err.println(value); 
     ArrayList<Object> words = new ArrayList<Object>();
     Node node = null;
     if (value == null) {
@@ -129,29 +119,7 @@ public class MecabSurface extends GenericUDF {
             words.add(w);
         }
     }
-    //this.tagger.parse(lattice);
-    //this.lattice.set_sentence(value);
-    // if (this.tagger.parse(lattice)) {
-    //    System.out.println(lattice.toString());
-    //    for (node = lattice.bos_node(); node != null; node = node.getNext()) {
-    //       StringBuffer sb = new StringBuffer(node.getSurface());
-    //       String w = sb.toString();
-    //       if (w.length() > 0) {
-    //          words.add(w);
-    //       }
-    //    }
-    // }
-    // for (;node != null; node = node.getNext()) {
-    //     StringBuffer sb = new StringBuffer(node.getSurface());
-    //     String w = sb.toString();
-    //     if (w.length() > 0) {
-    //         words.add(w);
-    //     }
-    // }
-    // ret = words;
-    // System.err.println("success! "+ret.toString()); 
-    ret = words;
-    return ret;
+    return words;
   }
 
   @Override
