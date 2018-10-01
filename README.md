@@ -23,8 +23,6 @@ Amazon EMR 上のHive並びにHueからのHiveインターフェイスで動き�
 今のところ、map reduceが動くとslaveにmecabがインストールしてない場合は
 落ちます。こっそり少しづつ流してください。
 
-またtezでは落ちます。mrを使ってください（特に大きなジョブ）。
-
 ## Building
 
 Amazon EMRについては、hiveを入れていただければ特にこれと言った制約はないですが、
@@ -99,12 +97,7 @@ ADD JAR spark-hive-udf_2.10-0.1.0.jar;
 ```
 これは楽勝でしょう。
 
-そして大事なことですが、engineをmrに変えてください。これをしないと
-大きなジョブが通りません（現状）。
-
 ```
-set hive.execution.engine=mr;
-
 CREATE TEMPORARY FUNCTION surface AS 'com.ardentex.spark.hiveudf.MecabSurface';
 ```
 
@@ -130,7 +123,6 @@ ADD JAR hdfs:///user/kimrin/MeCab.jar
 ADD JAR hdfs:///user/kimrin/spark-hive-udf_2.10-0.1.0.jar
 
 CREATE TEMPORARY FUNCTION surface AS 'com.ardentex.spark.hiveudf.MecabSurface';
-set hive.execution.engine=mr;
 
 SELECT keyword, surface(keyword) FROM full_query WHERE ver='2018-06-01' AND sub_ver='00-00-00' LIMIT 10000;
 ```
